@@ -15,7 +15,6 @@ from PyPDF2 import PdfReader
 from langchain.embeddings import HuggingFaceEmbeddings
 
 # Set Google API Key for ChatGoogleGenerativeAI if Gemini is selected
-os.environ["GOOGLE_API_KEY"] = "AIzaSyAeW-JwHuL3_nQXyVip6rU61XK83SjVr-c"  # Replace with your actual API key
 
 # Function to clean text by removing invalid Unicode characters
 def clean_text(text):
