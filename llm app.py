@@ -6,16 +6,20 @@ from langchain_community.document_loaders import WebBaseLoader
 from langchain_community.vectorstores import FAISS
 from langchain_google_genai.embeddings import GoogleGenerativeAIEmbeddings
 from langchain_google_genai import ChatGoogleGenerativeAI
-
 from langchain_community.llms import HuggingFaceEndpoint
 from openai import OpenAI
 from langchain.prompts import PromptTemplate
 from langchain.chains.question_answering import load_qa_chain
 from PyPDF2 import PdfReader
 from langchain.embeddings import HuggingFaceEmbeddings
+from huggingface_hub import login
 
-# Set Google API Key for ChatGoogleGenerativeAI if Gemini is selected
-os.environ["GOOGLE_API_KEY"] = "AIzaSyAeW-JwHuL3_nQXyVip6rU61XK83SjVr-c"  # Replace with your actual API key
+# Access keys securely using Streamlit Secrets
+os.environ["GOOGLE_API_KEY"] = st.secrets["GOOGLE_API_KEY"]
+huggingface_token = st.secrets["HUGGINGFACE_TOKEN"]
+
+# Log in to Hugging Face
+login(token=huggingface_token)
 
 # Function to clean text by removing invalid Unicode characters
 def clean_text(text):
@@ -53,7 +57,6 @@ def get_vector_store(text_chunks, embedding_choice):
     elif embedding_choice == "all-MiniLM-L6-v2":
         embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
     
-
     vector_store = FAISS.from_texts(text_chunks, embedding=embeddings)
     return vector_store
 
